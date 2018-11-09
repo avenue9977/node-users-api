@@ -1,0 +1,20 @@
+{
+  "name": "node_users_server",
+  "version": "1.0.0",
+  "description": "A simple users API server build with NodeJS/Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nikola Chetelyazov",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "joi": "^14.0.4",
+    "joy": "^0.1.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7"
+  }
+}
