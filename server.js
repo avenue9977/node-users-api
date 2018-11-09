@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 // API files for interacting with fake database
-const api = require('./routes/api');
+const api = require('./routes/routes');
 
 // Configuration 
 app.use(morgan('dev')); // log every request to the console
