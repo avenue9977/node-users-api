@@ -135,9 +135,15 @@ function filterUsers(item, type, array) {
     }
 }
 
+// generate ID for the user with pattern **-***-****
 function generateID(array) {
-    let random = Math.floor(Math.random() * 1000)
-    return random + "-" + (array.length + 1) + "-" + random;
+    let firstNumber = Math.floor(Math.random() * 100),
+        secondNumber = Math.floor(Math.random() * 10000);
+
+    firstNumber > 10 ? firstNumber : firstNumber + 10;
+    secondNumber > 1000 ? secondNumber : secondNumber + 1000;
+
+    return firstNumber + "-" + (array.length + 1) + "-" + secondNumber;
 }
 
 module.exports = router;
