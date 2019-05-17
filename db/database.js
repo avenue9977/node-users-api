@@ -1,4 +1,4 @@
-var database = [{
+let database = [{
   id: "00-178-0345",
   firstName: "Evin",
   lastName: "Carding",
