@@ -1,15 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var Joi = require('joi');
+const express = require('express');
+const router = express.Router();
+const Joi = require('joi');
 
 // database
-var users = require('../db/database');
+let users = require('../db/database'); 
 
-// api routes 
+// GET 
 
 // get all users
 router.get('/users', function(req, res) {
-    // responce with all users
     res.send(users);
 });
 
@@ -17,12 +16,12 @@ router.get('/users', function(req, res) {
 router.get('/users/:id', function(req, res) {
 
     // find the requested user
-    var user = users.find(function(user) {
+    const user = users.find(function(user) {
         return user.id === req.params.id;
     });
 
     if (!user) {
-        return res.status(404).send("User with the given ID not found");
+        return res.status(404).send("Can`t find user with the given ID");
     }
 
     // responce with the user
@@ -30,18 +29,20 @@ router.get('/users/:id', function(req, res) {
 
 });
 
+//POST
+
 // create an user 
 router.post('/users', function(req, res) {
 
     // validate the requests user
-    var result = validateUser(req.body);
+    const result = validateUser(req.body);
 
     if (result.error) {
         return res.status(400).send(result.error.details[0].message);
     }
 
     //create the user
-    var user = {
+    const user = {
         "id": generateID(users), 
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
@@ -52,7 +53,7 @@ router.post('/users', function(req, res) {
         "company": req.body.company
     };
 
-    // add to database (users array)
+    // add to database
     users.push(user);
 
     // responce with all users
@@ -60,11 +61,13 @@ router.post('/users', function(req, res) {
 
 });
 
-// updare an user
+//PUT
+
+// update an user
 router.put('/users/:id', function(req, res) {
 
     // find the requests user
-    var user = users.find(function(user) {
+    const user = users.find(function(user) {
         return user.id === req.params.id;
     });
 
@@ -73,7 +76,7 @@ router.put('/users/:id', function(req, res) {
     }
 
     // validate the request
-    var result = validateUser(req.body);
+    const result = validateUser(req.body);
 
     if (result.error) {
         return res.status(400).send(result.error.details[0].message);
@@ -93,10 +96,12 @@ router.put('/users/:id', function(req, res) {
 
 });
 
+// DELETE
+
 // delete an user
 router.delete('/users/:id', function(req, res) {
     // find the requested user
-    var user = users.find(function(user) {
+    const user = users.find(function(user) {
         return user.id === req.params.id;
     });
 
@@ -105,16 +110,17 @@ router.delete('/users/:id', function(req, res) {
     }
 
     // remove user from database 
-    var index = users.indexOf(user);
-    users.splice(index, 1);
+    users.splice(users.indexOf(user), 1);
 
     // responce with the deleted user
     res.send(user);
 });
 
+// UTILS
+
 // validating function
-function validateUser(user) {
-    var schema = {
+const validateUser = (user) => {
+    const schema = {
         "firstName": Joi.string(),
         "lastName": Joi.string(),
         "username": Joi.string(),
@@ -124,19 +130,11 @@ function validateUser(user) {
         "company": Joi.string().trim()
     };
 
-    var result = Joi.validate(user, schema);
-    return result;
-}
-
-// filtering function
-function filterUsers(item, type, array) {
-    if (item.type === type) {
-        array.push(item);
-    }
+    return Joi.validate(user, schema);
 }
 
 // generate ID for the user with pattern **-***-****
-function generateID(array) {
+const generateID = (array) => {
     let firstNumber = Math.floor(Math.random() * 100),
         secondNumber = Math.floor(Math.random() * 10000);
 
